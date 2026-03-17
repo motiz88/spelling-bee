@@ -3,15 +3,15 @@
 ```shell
 # current versions are:
 # node 20.5.1
-# npm  9.8.0
+# yarn 4.9.1 (via corepack)
 
 # install dependencies
-npm install
+yarn install
 
 # dev server
-npm run dev
+yarn dev
 # production build (fails to open locally with file:// protocol due to cors)
-npm run build
+yarn build
 ```
 
 ### Create derivative files
@@ -23,13 +23,13 @@ This operation is not idempotent. Re-creating allAnswers.json will change the or
    This is only required if there are changes to `wordsAdded.txt` or `wordsRemoved.txt`.
 
    ```shell
-   npm run createAllWords
+   yarn createAllWords
    ```
 
 2. Create `allAnswers$N.json`
 
    ```shell
-   npm run createFiles
+   yarn createFiles
    ```
 
    `AllWords.txt` must already exist. It must contain a single word per line.
@@ -40,19 +40,19 @@ This operation is not idempotent. Re-creating allAnswers.json will change the or
 
 ```
 # lint check
-npm run lint
+yarn lint
 # lint autofix
-npm run lintfix
+yarn lintfix
 ```
 
 ## Versioning
 
 ```shell
 # set version explicitly
-npm version <version>
+yarn version <version>
 
 # bump minor version
-npm version minor
+yarn version minor
 ```
 
 ## Favicon
