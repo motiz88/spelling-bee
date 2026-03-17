@@ -24,4 +24,5 @@ dist-ssr
 *.sw?
 
 # notes on hosting
-hostingpackage-lock.json
+hosting
+package-lock.json

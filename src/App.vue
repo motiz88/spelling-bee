@@ -31,7 +31,8 @@ const languageLabels: Record<GameLanguage, string> = {
   la: "Latin",
 };
 
-const getAllAnswers = () => answersByLanguage[store.language as GameLanguage] || allAnswersEn;
+const getAllAnswers = () =>
+  answersByLanguage[store.language as GameLanguage] || allAnswersEn;
 
 const onToggleDarkMode = () => {
   if (darkmode.value === true) {
@@ -153,6 +154,7 @@ store.startGame({ allAnswers: getAllAnswers() });
           :model-value="store.language"
           @change="onSwitchLanguage"
           class="language-select"
+          aria-label="Game language"
           size="small">
           <el-option value="en" label="English" />
           <el-option value="la" label="Latin" />
