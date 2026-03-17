@@ -7,8 +7,9 @@ import YesterdaysAnswers from "./components/YesterdaysAnswers.vue";
 import Info from "./components/Info.vue";
 import GameWon from "./components/GameWon.vue";
 import MigrationModal from "./components/MigrationModal.vue";
-import allAnswers from "../data/allAnswers.json";
-import { useMainStore } from "./store";
+import allAnswersEn from "../data/allAnswers.json";
+import allAnswersLa from "../data/allAnswersLatin.json";
+import { useMainStore, GameLanguage } from "./store";
 import { InfoFilled, Calendar, Sunny, Moon } from "@element-plus/icons-vue";
 
 const store = useMainStore();
@@ -20,6 +21,19 @@ let timer: any;
 
 const darkmode = ref(store.theme === "dark");
 
+const answersByLanguage: Record<GameLanguage, any[]> = {
+  en: allAnswersEn,
+  la: allAnswersLa,
+};
+
+const languageLabels: Record<GameLanguage, string> = {
+  en: "English",
+  la: "Latin",
+};
+
+const getAllAnswers = () =>
+  answersByLanguage[store.language as GameLanguage] || allAnswersEn;
+
 const onToggleDarkMode = () => {
   if (darkmode.value === true) {
     store.theme = "dark";
@@ -28,6 +42,22 @@ const onToggleDarkMode = () => {
     store.theme = "light";
     document.documentElement.classList.remove("dark");
   }
+};
+
+const onSwitchLanguage = (lang: GameLanguage) => {
+  if (lang === store.language) return;
+
+  const hasProgress = store.correctGuesses.size > 0;
+  if (hasProgress) {
+    const confirmed = confirm(
+      `Switch to ${languageLabels[lang]}? This will start a new game and your current progress will be lost.`
+    );
+    if (!confirmed) return;
+  }
+
+  store.language = lang;
+  gameWonModalShown.value = false;
+  store.forceNewGame({ allAnswers: getAllAnswers() });
 };
 
 const showGameWonModal = computed(
@@ -58,7 +88,7 @@ onMounted(() => {
   checkUrl();
 });
 
-store.startGame({ allAnswers });
+store.startGame({ allAnswers: getAllAnswers() });
 // TODO: remove i18n
 // TODO: extra not in spellingbee: track scores across days
 // TODO: add shake animation on incorrect submission?
@@ -119,6 +149,17 @@ store.startGame({ allAnswers });
           :active-icon="Sunny"
           :inactive-icon="Moon" />
       </el-menu-item>
+      <el-menu-item index="4">
+        <el-select
+          :model-value="store.language"
+          @change="onSwitchLanguage"
+          class="language-select"
+          aria-label="Game language"
+          size="small">
+          <el-option value="en" label="English" />
+          <el-option value="la" label="Latin" />
+        </el-select>
+      </el-menu-item>
     </el-menu>
     <Progress />
     <CorrectGuesses
@@ -166,6 +207,10 @@ div {
 
 .darkmode-switch {
   margin-top: 5px;
+}
+
+.language-select {
+  width: 100px;
 }
 
 h2 span {

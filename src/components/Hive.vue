@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, ref } from "vue";
+import { onMounted, onUnmounted, ref, watch } from "vue";
 import { useMainStore } from "../store";
 import { shuffle } from "../utils";
 import { useI18n } from "vue-i18n";
@@ -24,6 +24,17 @@ const otherLetters = ref(
     .filter((l: string) => l !== store.middleLetter)
 );
 let userGuess = ref("");
+
+// Watch for changes to available letters (e.g. language switch)
+watch(
+  () => store.availableLetters,
+  () => {
+    otherLetters.value = store.availableLetters
+      .split("")
+      .filter((l: string) => l !== store.middleLetter);
+    userGuess.value = "";
+  }
+);
 
 const onKeyPress = (e: KeyboardEvent) => {
   const pressedKey = e.key.toLowerCase();

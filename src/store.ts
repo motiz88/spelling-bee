@@ -6,9 +6,13 @@ import { differenceInDays, isSameDay } from "date-fns";
 import { epoch, generateAnswerObjs, incrementDups } from "./utils";
 import { Answer } from "./models/answer";
 
+export type GameLanguage = "en" | "la";
+
 export const useMainStore = defineStore({
   id: "main",
   state: () => ({
+    // language selection
+    language: useStorage("language", "en" as GameLanguage),
     // todays puzzle
     // correctGuesses as array caused infinite update issue when game was open in multiple tabs. see #6
     correctGuesses: useStorage("correctGuesses", new Set([]) as Set<string>),
@@ -170,6 +174,22 @@ export const useMainStore = defineStore({
       // set yesterday and todays answers and letters
       const { answers, availableLetters, middleLetter } = todaysAnswerObj;
 
+      this.answers = answers;
+      this.availableLetters = availableLetters;
+      this.middleLetter = middleLetter;
+    },
+    forceNewGame({ allAnswers }: { allAnswers: Array<Answer> }) {
+      const now = new Date();
+      this.gameDate = now;
+      this.correctGuesses = new Set([]);
+
+      const { todaysAnswerObj, yesterdaysAnswerObj } = generateAnswerObjs({
+        allAnswers,
+        gameDate: this.gameDate,
+      });
+      this.setYesterdaysAnswersAndLastGameDate({ yesterdaysAnswerObj });
+
+      const { answers, availableLetters, middleLetter } = todaysAnswerObj;
       this.answers = answers;
       this.availableLetters = availableLetters;
       this.middleLetter = middleLetter;
