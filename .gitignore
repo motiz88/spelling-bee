@@ -25,4 +25,6 @@ dist-ssr
 
 # notes on hosting
 hosting
-package-lock.json
+
+# yarn 4 local state (don't commit)
+.yarn/install-state.gz

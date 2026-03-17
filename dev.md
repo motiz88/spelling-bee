@@ -3,10 +3,7 @@
 ```shell
 # current versions are:
 # node 20.5.1
-# npm  9.8.0
-# yarn 1.22.21
-
-npm install -g yarn
+# yarn 4.9.1 (via corepack)
 
 # install dependencies
 yarn install
@@ -51,14 +48,11 @@ yarn lintfix
 ## Versioning
 
 ```shell
-# set version prefix
-yarn config set version-tag-prefix "v"
-
 # set version explicitly
-yarn version --new-version <version>
+yarn version <version>
 
 # bump minor version
-yarn version --minor
+yarn version minor
 ```
 
 ## Favicon

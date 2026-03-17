@@ -28,7 +28,8 @@ jobs:
           node-version: 20.5.1
       - name: Install dependencies
         run: |
-          npm i
+          corepack enable
+          yarn install --immutable
       - name: Tests
         run: |
           npm run test

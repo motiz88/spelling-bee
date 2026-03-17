@@ -6,7 +6,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "lint": "yarn lint:prettier",
+    "lint": "npm run lint:prettier",
     "lint:prettier": "prettier --check .",
     "lintfix": "prettier --write --list-different .",
     "test": "vitest --run",
@@ -33,6 +33,7 @@
   "devDependencies": {
     "@intlify/vite-plugin-vue-i18n": "^5.0.0",
     "@types/cli-progress": "^3.11.0",
+    "@types/node": "^25.5.0",
     "@types/readline-sync": "^1.4.4",
     "@vitejs/plugin-vue": "^2.3.3",
     "@vue/test-utils": "^2.0.2",
@@ -46,5 +47,13 @@
     "vite": "^2.9.18",
     "vite-plugin-checker": "^0.4.9",
     "vitest": "^0.18.1"
-  }
+  },
+  "resolutions": {
+    "vue-i18n": "9.1.10",
+    "@intlify/vite-plugin-vue-i18n": "5.0.0",
+    "@intlify/shared": "9.4.1",
+    "@intlify/bundle-utils": "7.0.0",
+    "@intlify/message-compiler": "9.3.0-beta.20"
+  },
+  "packageManager": "yarn@4.9.1"
 }
