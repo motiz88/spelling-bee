@@ -25,3 +25,6 @@ dist-ssr
 
 # notes on hosting
 hosting
+
+# yarn 4 local state (don't commit)
+.yarn/install-state.gz
